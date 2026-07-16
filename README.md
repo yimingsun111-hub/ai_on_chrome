@@ -1,4 +1,4 @@
-# NL Browser Agent
+# Natural Language Browser Agent
 
 **English** | [中文](#中文)
 

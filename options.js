@@ -10,7 +10,7 @@ function translatePage() {
   for (const el of document.querySelectorAll("[data-i18n]")) {
     el.textContent = t(el.dataset.i18n);
   }
-  document.title = t("optTitle") + " · NL Browser Agent";
+  document.title = t("optTitle") + " · Natural Language Browser Agent";
 }
 
 async function initLang() {
