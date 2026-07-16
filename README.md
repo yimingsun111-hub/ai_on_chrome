@@ -1,4 +1,6 @@
-# Natural Language Browser Agent
+<p align="center">
+  <img src="icons/banner.png" alt="Natural Language Browser Agent" width="800">
+</p>
 
 **English** | [中文](#中文)
 
