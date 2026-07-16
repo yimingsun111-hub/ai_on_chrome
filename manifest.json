@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "NL Browser Agent",
+  "version": "0.1.0",
+  "description": "用自然语言 + 自己的 API Key 操作浏览器（DeepSeek / Kimi / 通义 / 自定义）",
+  "permissions": ["storage", "scripting", "activeTab", "tabs", "sidePanel", "debugger"],
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_title": "打开 AI 助手"
+  },
+  "side_panel": {
+    "default_path": "panel.html"
+  },
+  "options_page": "options.html",
+  "web_accessible_resources": [
+    {
+      "resources": ["panel.html", "panel.css", "panel.js", "lib/*"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

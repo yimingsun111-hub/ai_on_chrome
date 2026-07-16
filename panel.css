@@ -1,0 +1,218 @@
+* { box-sizing: border-box; }
+
+:root {
+  --bg: #fafafa;
+  --surface: #ffffff;
+  --border: #e8e8e8;
+  --text: #1f1f1f;
+  --text-muted: #8a8a8a;
+  --accent: #2563eb;
+  --accent-soft: #eff4ff;
+  --danger: #dc2626;
+  --danger-soft: #fef1f1;
+  --radius: 10px;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  font-size: 14px;
+  color: var(--text);
+  background: var(--bg);
+}
+
+/* ── 顶栏 ───────────────────────── */
+header {
+  display: flex;
+  gap: 2px;
+  align-items: center;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+#active-model {
+  flex: 1;
+  font-size: 13px;
+  color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #6b6b6b;
+}
+.icon-btn:hover { background: #f0f0f0; color: var(--text); }
+.icon-btn svg { width: 16px; height: 16px; }
+
+/* ── 消息区 ─────────────────────── */
+#log {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+#log:empty::before {
+  /* 文案由 panel.js 按当前语言写入 data 属性 */
+  content: attr(data-l1) "\A" attr(data-l2) "\A" attr(data-l3);
+  white-space: pre-line;
+  margin: auto;
+  max-width: 240px;
+  text-align: center;
+  font-size: 13px;
+  line-height: 1.9;
+  color: #b5b5b5;
+}
+
+/* ── 首次启动：语言选择 ─────────── */
+#langpick {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lp-box { width: 240px; }
+.lp-title {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+.lp-box button {
+  display: block;
+  width: 100%;
+  padding: 9px 14px;
+  margin-bottom: 8px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+.lp-box button:hover { border-color: var(--accent); color: var(--accent); }
+
+.msg {
+  padding: 9px 12px;
+  border-radius: var(--radius);
+  white-space: pre-wrap;
+  word-break: break-word;
+  line-height: 1.55;
+  max-width: 92%;
+}
+.msg.user {
+  background: var(--accent);
+  color: #fff;
+  align-self: flex-end;
+  max-width: 85%;
+}
+.msg.assistant {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  align-self: flex-start;
+}
+.msg.action {
+  padding: 2px 0 2px 18px;
+  color: var(--text-muted);
+  font-size: 12.5px;
+  background: none;
+  position: relative;
+}
+.msg.action::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 5px;
+  width: 11px;
+  height: 11px;
+  background-color: #b5b5b5;
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><path d='M9 18l6-6-6-6'/></svg>") center / contain no-repeat;
+  mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><path d='M9 18l6-6-6-6'/></svg>") center / contain no-repeat;
+}
+.msg.system {
+  align-self: center;
+  color: var(--text-muted);
+  font-size: 12px;
+  background: none;
+  padding: 0;
+  text-align: center;
+}
+.msg.error {
+  background: var(--danger-soft);
+  color: var(--danger);
+  border: 1px solid #fadcdc;
+  align-self: flex-start;
+  font-size: 13px;
+}
+
+/* ── 输入区 ─────────────────────── */
+#composer {
+  margin: 0 12px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 10px 10px 8px;
+  transition: border-color .15s;
+}
+#composer:focus-within { border-color: #c8d6f5; }
+#input {
+  width: 100%;
+  resize: none;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text);
+}
+#input::placeholder { color: #b5b5b5; }
+.composer-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+.hint {
+  flex: 1;
+  font-size: 11px;
+  color: #c2c2c2;
+}
+.send-btn, .stop-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.send-btn svg, .stop-btn svg { width: 15px; height: 15px; }
+.send-btn { background: var(--accent); color: #fff; }
+.send-btn:hover { background: color-mix(in srgb, var(--accent) 88%, black); }
+.send-btn:disabled { background: #d4d4d4; cursor: not-allowed; }
+.stop-btn { background: var(--danger); color: #fff; }
+.stop-btn:hover { background: #b91c1c; }
+
+/* 运行状态：显示停止、隐藏发送 */
+body:not(.running) .stop-btn { display: none; }
+body.running .send-btn { display: none; }
