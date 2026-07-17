@@ -1,5 +1,11 @@
 <p align="center">
-  <img src="icons/banner.png" alt="NL Browser Agent" width="800">
+  <a href="https://github.com/yimingsun111-hub/Natural_Language_Browser_Agent/raw/main/assets/nl-browser-agent-intro-en.mp4">
+    <img src="icons/banner.png" alt="Watch the NL Browser Agent introduction" width="800">
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/yimingsun111-hub/Natural_Language_Browser_Agent/raw/main/assets/nl-browser-agent-intro-en.mp4">▶ Watch the introduction animation</a>
 </p>
 
 **English** | [中文](#中文)
@@ -71,6 +77,8 @@ If Edge doesn't automatically restore the sidebar after switching tabs, click th
 # 中文
 
 用自然语言操作浏览器的 Chrome 与 Microsoft Edge 扩展，灵感来自 Claude in Chrome。
+
+**[▶ 观看英文简介动画](https://github.com/yimingsun111-hub/Natural_Language_Browser_Agent/raw/main/assets/nl-browser-agent-intro-en.mp4)**
 
 > **需要你自己准备 API Key。** 这个扩展本身不提供 AI 能力——你要去某个模型服务商（如 DeepSeek、OpenAI）注册账号、申请一个 API Key（通常按用量付费），然后填进扩展的设置页。扩展本身免费，调用模型的费用由服务商直接从你自己的账户扣。
 
