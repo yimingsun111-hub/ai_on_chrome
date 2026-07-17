@@ -54,6 +54,7 @@ function applyI18n() {
   document.getElementById("float").title = t("tFloat");
   document.getElementById("newchat").title = t("tNewchat");
   document.getElementById("settings").title = t("tSettings");
+  document.getElementById("attach").title = t("tAttach");
   runBtn.title = t("tRun");
   stopBtn.title = t("tStop");
   logEl.dataset.l1 = t("emptyTitle");
@@ -174,19 +175,145 @@ function setRunning(on) {
   runBtn.disabled = on;
 }
 
+// ── 附件（图片/文本文件，随任务发给模型）──────────────
+const attachmentsEl = document.getElementById("attachments");
+const fileInputEl = document.getElementById("file-input");
+const MAX_IMAGES = 3;
+const MAX_TEXT_CHARS = 50000;
+const TEXT_EXT = /\.(txt|md|csv|json|js|ts|py|html|css|xml|ya?ml|log|tsv)$/i;
+
+let attachments = []; // {kind:'image', dataUrl, name} | {kind:'text', text, name}
+
+function renderAttachments() {
+  attachmentsEl.innerHTML = "";
+  attachments.forEach((att, i) => {
+    const card = document.createElement("div");
+    card.className = "att-card";
+    if (att.kind === "image") {
+      const img = document.createElement("img");
+      img.src = att.dataUrl;
+      card.appendChild(img);
+    } else {
+      const icon = document.createElement("div");
+      icon.className = "att-file-icon";
+      icon.innerHTML =
+        '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6"/></svg>';
+      card.appendChild(icon);
+    }
+    const name = document.createElement("span");
+    name.className = "att-name";
+    name.textContent = att.name;
+    name.title = att.name;
+    card.appendChild(name);
+
+    const rm = document.createElement("button");
+    rm.className = "att-remove";
+    rm.innerHTML =
+      '<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>';
+    rm.addEventListener("click", () => {
+      attachments.splice(i, 1);
+      renderAttachments();
+    });
+    card.appendChild(rm);
+    attachmentsEl.appendChild(card);
+  });
+}
+
+// 大图缩到最长边 1600px 再发，省 token 和带宽
+function downscaleImage(dataUrl, maxDim = 1600) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => {
+      const scale = Math.min(1, maxDim / Math.max(img.width, img.height));
+      if (scale >= 1) return resolve(dataUrl);
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.round(img.width * scale);
+      canvas.height = Math.round(img.height * scale);
+      const ctx = canvas.getContext("2d");
+      ctx.fillStyle = "#fff"; // 透明 PNG 转 JPEG 时垫白底
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      resolve(canvas.toDataURL("image/jpeg", 0.85));
+    };
+    img.onerror = () => resolve(dataUrl);
+    img.src = dataUrl;
+  });
+}
+
+async function addFiles(fileList) {
+  for (const file of fileList) {
+    if (file.type.startsWith("image/")) {
+      if (attachments.filter((a) => a.kind === "image").length >= MAX_IMAGES) {
+        addMessage("system", t("attachTooMany"));
+        continue;
+      }
+      const raw = await new Promise((res, rej) => {
+        const fr = new FileReader();
+        fr.onload = () => res(fr.result);
+        fr.onerror = rej;
+        fr.readAsDataURL(file);
+      });
+      const dataUrl = await downscaleImage(raw);
+      attachments.push({ kind: "image", dataUrl, name: file.name || "image" });
+    } else if (file.type.startsWith("text/") || TEXT_EXT.test(file.name || "")) {
+      const text = await file.text();
+      attachments.push({ kind: "text", text: text.slice(0, MAX_TEXT_CHARS), name: file.name || "file.txt" });
+    } else {
+      addMessage("system", t("attachUnsupported", file.name || file.type || "?"));
+    }
+  }
+  renderAttachments();
+}
+
+document.getElementById("attach").addEventListener("click", () => fileInputEl.click());
+fileInputEl.addEventListener("change", async () => {
+  await addFiles([...fileInputEl.files]);
+  fileInputEl.value = ""; // 允许重复选同一个文件
+});
+
+// 粘贴图片
+inputEl.addEventListener("paste", (e) => {
+  const files = [...(e.clipboardData?.files || [])];
+  if (files.length) {
+    e.preventDefault();
+    addFiles(files);
+  }
+});
+
+// 拖拽文件到面板
+const composerEl = document.getElementById("composer");
+document.body.addEventListener("dragover", (e) => {
+  e.preventDefault();
+  composerEl.classList.add("dragover");
+});
+document.body.addEventListener("dragleave", () => composerEl.classList.remove("dragover"));
+document.body.addEventListener("drop", (e) => {
+  e.preventDefault();
+  composerEl.classList.remove("dragover");
+  const files = [...(e.dataTransfer?.files || [])];
+  if (files.length) addFiles(files);
+});
+
 async function run() {
   const task = inputEl.value.trim();
   if (!task || running) return;
-  addMessage("user", task);
+
+  const taskAttachments = attachments;
+  attachments = [];
+  renderAttachments();
+
+  // 用户气泡里带上附件名，跨轮上下文也只记文字（附件本体不进历史，保持轻量）
+  const names = taskAttachments.map((a) => a.name).join(", ");
+  const shownTask = names ? `${task}\n${t("attachLine", names)}` : task;
+  addMessage("user", shownTask);
   inputEl.value = "";
 
   stopped = false;
   setRunning(true);
 
   try {
-    const answer = await runTask(task, addMessage, () => stopped, conversation);
-    // 存入上下文，让后续"这个/继续"等追问能接上（只存文字，保持轻量）
-    conversation.push({ role: "user", content: task });
+    const answer = await runTask(task, addMessage, () => stopped, conversation, taskAttachments);
+    conversation.push({ role: "user", content: shownTask });
     if (answer) conversation.push({ role: "assistant", content: answer });
   } catch (e) {
     addMessage("error", t("errPrefix", e.message));
