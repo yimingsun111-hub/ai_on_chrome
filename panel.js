@@ -49,13 +49,14 @@ async function restoreHistory() {
 // ── 多语言 ──────────────────────────
 // 把当前语言文案写进界面（静态部分）
 function applyI18n() {
+  const primaryKey = /Mac|iPhone|iPad/i.test(navigator.platform || navigator.userAgent) ? "Cmd" : "Ctrl";
   inputEl.placeholder = t("inputPlaceholder");
-  document.getElementById("hint").textContent = t("runHint");
+  document.getElementById("hint").textContent = t("runHint").replace("Cmd", primaryKey);
   document.getElementById("float").title = t("tFloat");
   document.getElementById("newchat").title = t("tNewchat");
   document.getElementById("settings").title = t("tSettings");
   document.getElementById("attach").title = t("tAttach");
-  runBtn.title = t("tRun");
+  runBtn.title = t("tRun").replace("Cmd", primaryKey);
   stopBtn.title = t("tStop");
   logEl.dataset.l1 = t("emptyTitle");
   logEl.dataset.l2 = t("emptyEx1");

@@ -4,7 +4,7 @@
 
 **English** | [中文](#中文)
 
-A Chrome extension that lets you control your browser with natural language — inspired by Claude in Chrome.
+A Chrome and Microsoft Edge extension that lets you control your browser with natural language — inspired by Claude in Chrome.
 
 > **You need your own API key.** This extension doesn't provide AI itself — you sign up with a model provider (e.g. DeepSeek, OpenAI), get an API key from them (usually pay-as-you-go), and paste it into the extension's Settings page. The extension is free; the model calls are billed by the provider to your own account.
 
@@ -23,14 +23,14 @@ Type one sentence in the side panel; the AI looks at the page (screenshot + numb
 
 ## Install
 
-1. Open `chrome://extensions` and enable **Developer mode**
+1. Open `chrome://extensions` (Chrome) or `edge://extensions` (Edge), then enable **Developer mode**
 2. Click **Load unpacked** and select this folder
 3. Click the extension icon to open the side panel, and pick your language
 4. Open Settings, choose a provider, paste your API key, click **Test connection**
 5. Optionally enable **Vision** (needs a vision model) and **Trusted input (debugger)** — required for editing Google Docs
 6. Switch to a normal web page, type a task, hit **Run**
 
-> While a task runs, Chrome shows an *"is debugging this browser"* bar — that's the trusted-input mode and it's normal; it disconnects when the task ends. Don't open DevTools (F12) on the same tab at the same time.
+> While a task runs, the browser shows an *"is debugging this browser"* bar — that's the trusted-input mode and it's normal; it disconnects when the task ends. Don't open DevTools (F12) on the same tab at the same time.
 
 ## Examples
 
@@ -56,7 +56,7 @@ Type one sentence in the side panel; the AI looks at the page (screenshot + numb
 
 ## Known limitations
 
-- Cannot operate browser-internal pages (`chrome://…`) or the Chrome Web Store
+- Cannot operate browser-internal pages (`chrome://…`, `edge://…`) or browser extension stores
 - Works on a single tab per task; new tabs/popups opened mid-task aren't followed
 - Real-input click coordinates may drift if page zoom isn't 100%
 
@@ -68,7 +68,7 @@ Type one sentence in the side panel; the AI looks at the page (screenshot + numb
 
 # 中文
 
-用自然语言操作浏览器的 Chrome 扩展，灵感来自 Claude in Chrome。
+用自然语言操作浏览器的 Chrome 与 Microsoft Edge 扩展，灵感来自 Claude in Chrome。
 
 > **需要你自己准备 API Key。** 这个扩展本身不提供 AI 能力——你要去某个模型服务商（如 DeepSeek、OpenAI）注册账号、申请一个 API Key（通常按用量付费），然后填进扩展的设置页。扩展本身免费，调用模型的费用由服务商直接从你自己的账户扣。
 
@@ -87,7 +87,7 @@ Type one sentence in the side panel; the AI looks at the page (screenshot + numb
 
 ## 安装
 
-1. 打开 `chrome://extensions`，开启右上角**开发者模式**
+1. Chrome 打开 `chrome://extensions`，Edge 打开 `edge://extensions`，然后开启**开发者模式**
 2. 点**加载已解压的扩展程序**，选择本文件夹
 3. 点工具栏扩展图标打开侧边栏，选择语言
 4. 进设置：选服务商 → 填 API Key → 点**测试连接**
@@ -105,7 +105,7 @@ Type one sentence in the side panel; the AI looks at the page (screenshot + numb
 
 ## 已知限制
 
-- 不能操作 `chrome://` 等浏览器内部页和 Chrome 应用商店
+- 不能操作 `chrome://`、`edge://` 等浏览器内部页和浏览器扩展商店
 - 每个任务只操作一个标签页，中途新开的标签页/弹窗不会跟进
 - 页面缩放不是 100% 时，真实点击坐标可能有偏差
 
