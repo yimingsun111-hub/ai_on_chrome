@@ -12,6 +12,7 @@ const activeModelEl = document.getElementById("active-model");
 
 let stopped = false;
 let running = false;
+let runController = null;
 const conversation = []; // 跨轮对话上下文：{role:'user'|'assistant', content}
 
 // ── 聊天记录持久化（会话级：浏览器关闭即清空）──────────────
@@ -312,21 +313,26 @@ async function run() {
   inputEl.value = "";
 
   stopped = false;
+  runController = new AbortController();
   setRunning(true);
 
   try {
-    const answer = await runTask(task, addMessage, () => stopped, conversation, taskAttachments);
+    const answer = await runTask(task, addMessage, () => stopped, conversation, taskAttachments, runController.signal);
     conversation.push({ role: "user", content: shownTask });
     if (answer) conversation.push({ role: "assistant", content: answer });
   } catch (e) {
     addMessage("error", t("errPrefix", e.message));
   } finally {
+    runController = null;
     setRunning(false);
   }
 }
 
 runBtn.addEventListener("click", run);
-stopBtn.addEventListener("click", () => { stopped = true; });
+stopBtn.addEventListener("click", () => {
+  stopped = true;
+  runController?.abort();
+});
 inputEl.addEventListener("keydown", (e) => {
   if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) run();
 });

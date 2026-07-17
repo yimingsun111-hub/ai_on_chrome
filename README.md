@@ -23,6 +23,8 @@ Type one sentence in the side panel; the AI looks at the page (screenshot + numb
 - **Trusted input** — uses `chrome.debugger` (CDP) to send real mouse/keyboard events, so it can operate apps that ignore synthetic events, like Google Docs.
 - **Multi-tab tasks** — lists and switches between existing tabs, automatically follows links that open a new tab, and can keep operating a background tab when trusted input is enabled.
 - **Stable coordinates** — refreshes an element's position immediately before clicking and remaps screenshot coordinates if the viewport or page zoom changes.
+- **Faster execution** — replaces fixed delays with page-stability detection, limits and deduplicates vision screenshots, compacts long-task context, streams compatible API responses, and cancels requests immediately when stopped.
+- **Fast form filling** — safely fills multiple visible fields in one deterministic action, then optionally submits the form.
 - **Reliable Docs editing** — the model only proposes a find/replace pattern; deterministic code drives the Google Docs Find-and-Replace dialog (open, toggle regex, fill, replace all). Calibrated against the real Docs DOM.
 - **Floating window** — pop the panel out of the side panel onto the page itself; drag to move, resize from the corner.
 - **Themes** — customize background, surface, text, border, accent and the glow color shown around the page while a task runs.
@@ -93,6 +95,8 @@ If Edge doesn't automatically restore the sidebar after switching tabs, click th
 - **真实按键** —— 通过 `chrome.debugger`（CDP）发送受信任的键鼠事件，能操作 Google Docs 这类不认合成事件的应用。
 - **多标签页任务** —— 可列出和切换已有标签页，自动跟随链接新开的标签页；开启真实按键后还能继续操作后台标签页。
 - **稳定坐标** —— 点击前重新读取元素实时位置；页面缩放或视口变化后会自动重新映射截图坐标。
+- **更快执行** —— 用页面稳定检测替代固定等待，限制并去重视觉截图，压缩长任务上下文，兼容流式响应，停止时立即取消请求。
+- **快速填写表单** —— 一次可靠填写多个当前可见字段，并可选择在完成后提交。
 - **可靠的 Docs 编辑** —— 模型只出查找/替换模式，由确定性代码驱动 Docs 的查找替换对话框（打开、勾正则、填框、全部替换），对照真实 DOM 校准。
 - **浮窗模式** —— 把面板弹到网页上，可拖动、可缩放。
 - **主题** —— 背景、表面、文字、边框、强调色、运行光效颜色全部可调。

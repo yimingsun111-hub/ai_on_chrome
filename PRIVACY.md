@@ -20,6 +20,7 @@ NL Browser Agent lets you automate your browser with natural-language commands. 
 
 - Your API key, provider settings, theme and language preferences — stored locally via `chrome.storage.local`, never uploaded anywhere by the extension.
 - Session chat history — stored via `chrome.storage.session` and automatically erased when the browser closes.
+- Local task performance timing (durations and counts only, never page content) — stored via `chrome.storage.session` for the latest task and erased when the browser closes.
 
 ### Data sent to third parties
 
@@ -53,6 +54,7 @@ NL Browser Agent 让你用自然语言指令自动化操作浏览器。为此，
 
 - API Key、服务商配置、主题与语言偏好——通过 `chrome.storage.local` 仅存本机，扩展不会将其上传到任何地方。
 - 会话级聊天记录——存于 `chrome.storage.session`，浏览器关闭后自动清除。
+- 最近一次任务的本地性能计时（仅耗时与次数，不含页面内容）——存于 `chrome.storage.session`，浏览器关闭后自动清除。
 
 ### 发送给第三方的数据
 
