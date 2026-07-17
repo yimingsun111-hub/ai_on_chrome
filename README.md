@@ -21,6 +21,8 @@ Type one sentence in the side panel; the AI looks at the page (screenshot + numb
 - **Provider presets** — built-in presets for DeepSeek, Kimi (Moonshot), Qwen and OpenAI, plus a custom option for any OpenAI-compatible endpoint. Requires an API key you obtain yourself from that provider. The key is stored locally in `chrome.storage` and never leaves your machine except to call the API you configured.
 - **Vision** — sends page screenshots to the model so it can read canvas-based pages (Google Docs, embedded images, exam questions…). Requires a vision-capable model such as GPT-4o or Qwen-VL.
 - **Trusted input** — uses `chrome.debugger` (CDP) to send real mouse/keyboard events, so it can operate apps that ignore synthetic events, like Google Docs.
+- **Multi-tab tasks** — lists and switches between existing tabs, automatically follows links that open a new tab, and can keep operating a background tab when trusted input is enabled.
+- **Stable coordinates** — refreshes an element's position immediately before clicking and remaps screenshot coordinates if the viewport or page zoom changes.
 - **Reliable Docs editing** — the model only proposes a find/replace pattern; deterministic code drives the Google Docs Find-and-Replace dialog (open, toggle regex, fill, replace all). Calibrated against the real Docs DOM.
 - **Floating window** — pop the panel out of the side panel onto the page itself; drag to move, resize from the corner.
 - **Themes** — customize background, surface, text, border, accent and the glow color shown around the page while a task runs.
@@ -65,8 +67,8 @@ If Edge doesn't automatically restore the sidebar after switching tabs, click th
 ## Known limitations
 
 - Cannot operate browser-internal pages (`chrome://…`, `edge://…`) or browser extension stores
-- Works on a single tab per task; new tabs/popups opened mid-task aren't followed
-- Real-input click coordinates may drift if page zoom isn't 100%
+- Background-tab screenshots and actions require **Trusted input (debugger)**; without it, the target tab is brought to the foreground
+- New tabs in the same browser window are followed automatically; separate popup windows are not yet followed
 
 ## License
 
@@ -89,6 +91,8 @@ If Edge doesn't automatically restore the sidebar after switching tabs, click th
 - **多服务商模板** —— 内置 DeepSeek、Kimi (Moonshot)、通义千问、OpenAI 模板，也可自定义任意 OpenAI 兼容接口。需要你自己在对应服务商申请 API Key。Key 只存本机 `chrome.storage`，除了调用你配置的 API 不会发往任何地方。
 - **视觉** —— 把网页截图发给模型，能读懂 Google Docs 等 canvas 页面、文档里嵌的图片和题目。需要带视觉的模型（GPT-4o、通义-VL 等）。
 - **真实按键** —— 通过 `chrome.debugger`（CDP）发送受信任的键鼠事件，能操作 Google Docs 这类不认合成事件的应用。
+- **多标签页任务** —— 可列出和切换已有标签页，自动跟随链接新开的标签页；开启真实按键后还能继续操作后台标签页。
+- **稳定坐标** —— 点击前重新读取元素实时位置；页面缩放或视口变化后会自动重新映射截图坐标。
 - **可靠的 Docs 编辑** —— 模型只出查找/替换模式，由确定性代码驱动 Docs 的查找替换对话框（打开、勾正则、填框、全部替换），对照真实 DOM 校准。
 - **浮窗模式** —— 把面板弹到网页上，可拖动、可缩放。
 - **主题** —— 背景、表面、文字、边框、强调色、运行光效颜色全部可调。
@@ -118,8 +122,8 @@ If Edge doesn't automatically restore the sidebar after switching tabs, click th
 ## 已知限制
 
 - 不能操作 `chrome://`、`edge://` 等浏览器内部页和浏览器扩展商店
-- 每个任务只操作一个标签页，中途新开的标签页/弹窗不会跟进
-- 页面缩放不是 100% 时，真实点击坐标可能有偏差
+- 后台标签页截图和操作需要开启**真实按键（debugger）**；未开启时会自动把目标标签页切到前台
+- 同一浏览器窗口内新开的标签页会自动跟随，独立弹窗窗口暂不跟随
 
 ## 协议
 

@@ -10,7 +10,7 @@ Last updated: 2026-07-17 · 最后更新：2026-07-17
 
 ### What this extension does
 
-NL Browser Agent lets you automate your browser with natural-language commands. To do this, when **you** run a task, the extension reads the content of the page you are currently viewing (interactive element structure, page text, and — if Vision is enabled — a screenshot) and sends it to the AI model API endpoint **that you yourself configured** (e.g. DeepSeek, OpenAI, or any OpenAI-compatible endpoint), so the model can decide the next action.
+NL Browser Agent lets you automate your browser with natural-language commands. To do this, when **you** run a task, the extension reads the content of the page being operated (interactive element structure, page text, and — if Vision is enabled — a screenshot) and sends it to the AI model API endpoint **that you yourself configured** (e.g. DeepSeek, OpenAI, or any OpenAI-compatible endpoint), so the model can decide the next action. For a multi-tab task, the model may also receive the titles and URLs of tabs in the current window and the content of a tab it selects for the task.
 
 ### Data we collect
 
@@ -23,14 +23,14 @@ NL Browser Agent lets you automate your browser with natural-language commands. 
 
 ### Data sent to third parties
 
-Page content (element structure, text, optional screenshots) and your typed instructions/attachments are sent **only** to the model API endpoint you configured, **only** while a task you started is running. That transmission is governed by the privacy policy of the provider you chose. The extension never sends data to any endpoint other than the one you configured.
+Page content (element structure, text, optional screenshots), current-window tab titles/URLs when needed for a multi-tab task, and your typed instructions/attachments are sent **only** to the model API endpoint you configured, **only** while a task you started is running. That transmission is governed by the privacy policy of the provider you chose. The extension never sends data to any endpoint other than the one you configured.
 
 ### Data we do NOT do
 
 - We do not sell or transfer user data to third parties.
 - We do not use or transfer user data for purposes unrelated to the extension's single purpose.
 - We do not use or transfer user data to determine creditworthiness or for lending purposes.
-- We do not collect browsing history, and the extension does not read pages in the background — only during a task you explicitly started.
+- We do not continuously collect browsing history or monitor browsing. Pages and tab information are accessed only while a task you explicitly started is running, including a background tab only when that task switches to it.
 
 ### Contact
 
@@ -43,7 +43,7 @@ https://github.com/yimingsun111-hub/Natural_Language_Browser_Agent/issues
 
 ### 本扩展做什么
 
-NL Browser Agent 让你用自然语言指令自动化操作浏览器。为此，当**你**主动运行任务时，扩展会读取你当前浏览页面的内容（可交互元素结构、页面文字，若开启视觉功能则包含页面截图），并发送给**你自己配置的** AI 模型接口（如 DeepSeek、OpenAI 或任意 OpenAI 兼容接口），由模型决定下一步操作。
+NL Browser Agent 让你用自然语言指令自动化操作浏览器。为此，当**你**主动运行任务时，扩展会读取正在操作的页面内容（可交互元素结构、页面文字，若开启视觉功能则包含页面截图），并发送给**你自己配置的** AI 模型接口（如 DeepSeek、OpenAI 或任意 OpenAI 兼容接口），由模型决定下一步操作。执行多标签页任务时，模型还可能收到当前窗口中标签页的标题和网址，以及它为该任务选择的标签页内容。
 
 ### 我们收集哪些数据
 
@@ -56,14 +56,14 @@ NL Browser Agent 让你用自然语言指令自动化操作浏览器。为此，
 
 ### 发送给第三方的数据
 
-页面内容（元素结构、文字、可选的截图）与你输入的指令/附件，**仅**在你主动运行任务期间、**仅**发送给你自己配置的模型接口。该传输受你所选服务商的隐私政策约束。除你配置的接口外，扩展不向任何其他端点发送数据。
+页面内容（元素结构、文字、可选的截图）、多标签页任务所需的当前窗口标签页标题/网址，以及你输入的指令/附件，**仅**在你主动运行任务期间、**仅**发送给你自己配置的模型接口。该传输受你所选服务商的隐私政策约束。除你配置的接口外，扩展不向任何其他端点发送数据。
 
 ### 我们承诺不做的事
 
 - 不向第三方出售或传输用户数据
 - 不将用户数据用于与本扩展单一用途无关的目的
 - 不将用户数据用于信用评估或放贷目的
-- 不收集浏览历史；扩展不在后台读取页面，只在你明确启动的任务期间工作
+- 不持续收集浏览历史或监控浏览行为；页面和标签页信息只会在你明确启动的任务期间访问，后台标签页也只有在任务切换到它时才会读取
 
 ### 联系方式
 
