@@ -115,6 +115,15 @@ function currentConfig() {
   };
 }
 
+function displayConfig(cfg) {
+  providerSel.value = cfg.providerId || "deepseek";
+  apiKeyEl.value = cfg.apiKey || "";
+  baseURLEl.value = cfg.baseURL || "";
+  modelEl.value = cfg.model || "";
+  $("vision").checked = !!cfg.vision;
+  $("useDebugger").checked = !!cfg.useDebugger;
+}
+
 // 初始化下拉框
 for (const p of PRESETS) {
   const opt = document.createElement("option");
@@ -134,7 +143,8 @@ providerSel.addEventListener("change", () => {
 
 $("save").addEventListener("click", async () => {
   try {
-    await saveConfig(currentConfig());
+    const saved = await saveConfig(currentConfig());
+    displayConfig(saved);
     showStatus(t("stSaved"), "ok");
   } catch (e) {
     showStatus(t("stSaveFail", e.message), "err");
@@ -147,7 +157,8 @@ $("test").addEventListener("click", async () => {
   try {
     const reply = await testConnection(cfg);
     // 测试通过就顺手保存，省得用户忘记保存
-    await saveConfig(cfg);
+    const saved = await saveConfig(cfg);
+    displayConfig(saved);
     showStatus(t("stTestOk", reply), "ok");
   } catch (e) {
     showStatus(t("stTestFail", e.message), "err");
@@ -157,10 +168,5 @@ $("test").addEventListener("click", async () => {
 // 载入已保存的配置
 (async () => {
   const cfg = await loadConfig();
-  providerSel.value = cfg.providerId || "deepseek";
-  apiKeyEl.value = cfg.apiKey || "";
-  baseURLEl.value = cfg.baseURL || "";
-  modelEl.value = cfg.model || "";
-  $("vision").checked = !!cfg.vision;
-  $("useDebugger").checked = !!cfg.useDebugger;
+  displayConfig(cfg);
 })();
